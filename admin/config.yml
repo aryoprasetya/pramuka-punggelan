@@ -1,0 +1,22 @@
+backend:
+name: github
+repo: USERNAME_GITHUB/pramuka-punggelan
+branch: main
+
+
+media_folder: "assets/img/uploads"
+public_folder: "/assets/img/uploads"
+
+
+collections:
+- name: "berita"
+label: "Berita"
+folder: "content/berita"
+create: true
+slug: "{{slug}}"
+format: "json"
+fields:
+- { label: "Judul", name: "title", widget: "string" }
+- { label: "Ringkasan", name: "excerpt", widget: "text" }
+- { label: "Thumbnail", name: "thumbnail", widget: "image" }
+- { label: "Isi Berita", name: "content", widget: "markdown" }
