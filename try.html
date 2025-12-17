@@ -358,6 +358,12 @@
   body.light-bg { background: #fff !important; color: #000 !important; }
   body.underline-links a { text-decoration: underline !important; }
   body.readable-font { font-family: 'OpenDyslexic', Arial, sans-serif !important; }
+  .post img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
 </style>
 
 <!-- Font untuk Readable -->
@@ -751,7 +757,17 @@ async function loadRSS(){
       const title = post.title;
       const link = post.link;
       const excerpt = post.description.replace(/(<([^>]+)>)/gi,"").slice(0,120) + "...";
-      const img = post.thumbnail || "https://via.placeholder.com/400x250?text=DKR+Punggelan";
+      let img = post.thumbnail;
+
+if (!img && post.content) {
+  const match = post.content.match(/<img[^>]+src="([^">]+)"/);
+  if (match) img = match[1];
+}
+
+if (!img) {
+  img = "https://via.placeholder.com/400x250?text=DKR+Punggelan";
+}
+
 
       /* Card Berita */
       postsContainer.innerHTML += `
