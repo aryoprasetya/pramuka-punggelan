@@ -734,28 +734,26 @@
     document.getElementById("donasiPopup").style.display = "none";
   }
 </script>
-
-<script>
-const WP_API = "https://dkrpunggelan.wordpress.com/wp-json/wp/v2";
+  <script>
+const RSS_URL = "https://api.rss2json.com/v1/api.json?rss_url=https://dkrpunggelan.wordpress.com/feed/";
 const postsContainer = document.getElementById("posts");
 const runningText = document.getElementById("runningText");
 
-async function loadWordPressPosts(){
+async function loadRSS(){
   try{
-    const res = await fetch(`${WP_API}/posts?_embed&per_page=6`);
-    const posts = await res.json();
+    const res = await fetch(RSS_URL);
+    const data = await res.json();
 
     postsContainer.innerHTML = "";
     runningText.innerHTML = "";
 
-    posts.forEach(post => {
-      const title = post.title.rendered;
+    data.items.slice(0,6).forEach(post => {
+      const title = post.title;
       const link = post.link;
-      const excerpt = post.excerpt.rendered.replace(/(<([^>]+)>)/gi,"").slice(0,120) + "...";
-      const img = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url 
-                  || "https://via.placeholder.com/400x250?text=DKR+Punggelan";
+      const excerpt = post.description.replace(/(<([^>]+)>)/gi,"").slice(0,120) + "...";
+      const img = post.thumbnail || "https://via.placeholder.com/400x250?text=DKR+Punggelan";
 
-      /* Blog Card */
+      /* Card Berita */
       postsContainer.innerHTML += `
         <div class="post">
           <img src="${img}" alt="${title}">
@@ -779,7 +777,7 @@ async function loadWordPressPosts(){
   }
 }
 
-loadWordPressPosts();
+loadRSS();
 </script>
 
 </body>
